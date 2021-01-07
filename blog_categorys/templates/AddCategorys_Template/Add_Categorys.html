@@ -1,0 +1,73 @@
+{% extends 'AdminPanel_Template/AdminPanel.html' %}
+{% load static %}
+{% block page_name %}
+    Add Categorys
+{% endblock %}
+
+
+{% block contents %}
+ <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-info card-outline">
+            <div class="card-header">
+     <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <h3 class="card-title">Title</h3>
+                <div class="card-body">
+                  <div class="mb-3">
+                      <input type="text" name="title" style="width: 100%" placeholder="Enter the title of the article"></input>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                  {% if error_title %}
+                      <br>
+                      <p style="color: red">{{ error_title }}</p>
+                  {% endif %}
+              </div>
+
+
+               <h3 class="card-title">Slug</h3>
+                <div class="card-body">
+                  <div class="mb-3">
+                      <input type="text" name="slug" style="width: 100%" placeholder="Please enter the article address in the url"></input>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                  {% if error_slug %}
+                      <br>
+                      <p style="color: red">{{ error_slug }}</p>
+                  {% endif %}
+              </div>
+
+            <div class="custom-checkbox" style="color: #01FF70">
+                <ul>
+                    <br>
+                     <input class="vCheckboxLabel" name="ReleaseStatus" type="checkbox"> Publish or not </input>
+                     <br>
+                 </ul>
+             </div>
+            <br>
+
+            <div>
+                {% if Created_Successfully %}
+                    <br>
+                    <p style="color: #01FF70">{{ Created_Successfully }}</p>
+                {% endif %}
+              </div>
+            <button >send</button>
+        </div>
+      </div>
+     </div>
+     </div>
+     </div>
+ </section>
+    </form>
+{% endblock %}
+
+
+ 

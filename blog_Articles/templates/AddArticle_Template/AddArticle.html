@@ -1,0 +1,206 @@
+{% extends 'AdminPanel_Template/AdminPanel.html'%}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block contens %}
+    <form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+            <div class="content">
+                <!-- Your Block -->
+                <div class="block block-rounded">
+                    <div class="block-content">
+                        <div class="form-headline col-lg-6">
+                            <div>
+                                <label for="example-text-input">Article image</label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="example-group1-input1"
+                                        name="image" >
+                                </div>
+                            </div>
+                        {% if error_image %}
+                               <p style="color: red">{{ error_image }}</p>
+                        {% endif %}
+                        <br>
+                            <div>
+                                <label for="example-text-input">Title</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="example-group1-input1"
+                                        name="title" placeholder="Enter the title of the article in English">
+                                </div>
+                            </div>
+                        {% if error_title %}
+                               <p style="color: red">{{ error_title }}</p>
+                        {% endif %}
+                         <br>
+                            <div>
+                                <label for="example-text-input">Slug</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="example-group1-input1"
+                                        name="slug" placeholder="Enter the slug of the article in English">
+                                </div>
+                            </div>
+                        {% if error_title %}
+                               <p style="color: red">{{ error_title }}</p>
+                        {% endif %}
+
+
+                         <br>
+                             <label for="example-text-input">Categorys</label>
+                                <div class="input-group">
+                                   <select class="select2-container" id="example-select-multiple" name="categorys" size="20" style="width: 500px" multiple>
+                                       {% for categorys in categorys_all %}
+                                           <option value="{{ categorys.id }}">{{ categorys.title }}</option>
+                                       {% endfor %}
+                                   </select>
+                                </div>
+                            </div>
+                        {% if error_categorys %}
+                               <p style="color: red">{{ error_categorys }}</p>
+                        {% endif %}
+
+                        <br>
+
+                           <div>
+
+
+
+                            <div class="input-group">
+                                 <label for="example-text-input">Should the article be published or not?</label>
+                                <input value="on"  style="margin-right: 900px; width: 30px;height: 30px"  type="checkbox" class="form-control" id="example-group1-input1" name="ReleaseStatus">
+                            </div>
+
+
+
+
+                            <div class="block-header">
+
+                            </div>
+                        </div>
+                        <!-- END Your Block -->
+
+
+
+                    </div>
+
+
+                    <div class="block block-rounded">
+
+                        <div class="block-content">
+                            <div class="block-content">
+                                    <div class="form-group">
+                                        <!-- CKEditor Container -->
+                                        <textarea id="js-ckeditor" name="description" >Please enter the description of the article in English</textarea>
+                                    </div>
+                            </div>
+                            <div class="block-header">
+
+                            </div>
+                        </div>
+                        <!-- END Your Block -->
+                        {% if error_description %}
+                               <p  style="color: red; margin-left: 20px">{{ error_description }}</p>
+                        {% endif %}
+
+
+
+                       {% if done_successfully %}
+                               <p  style="color: #01FF70; margin-left: 20px">{{ done_successfully }}</p>
+                        {% endif %}
+
+                        <div>
+                            <label for="example-text-input"></label>
+                            <div class="input-group  button">
+                                <input type="submit" class="form-control" id="example-group1-input1" value="Add Article">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <!-- END Page Content -->
+
+
+
+
+
+
+            <!-- Apps Modal -->
+            <!-- Opens from the modal toggle button in the header -->
+            <div class="modal fade" id="one-modal-apps" tabindex="-1" role="dialog" aria-labelledby="one-modal-apps"
+                aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="block block-rounded block-themed block-transparent mb-0">
+                            <div class="block-header bg-primary-dark">
+                                <h3 class="block-title">Apps</h3>
+                                <div class="block-options">
+                                    <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+                                        <i class="si si-close"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="block-content block-content-full">
+                                <div class="row gutters-tiny">
+                                    <div class="col-6">
+                                        <!-- CRM -->
+                                        <a class="block block-rounded block-link-shadow bg-body" href="javascript:void(0)">
+                                            <div class="block-content text-center">
+                                                <i class="si si-speedometer fa-2x text-primary"></i>
+                                                <p class="font-w600 font-size-sm mt-2 mb-3">
+                                                    CRM
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <!-- END CRM -->
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Products -->
+                                        <a class="block block-rounded block-link-shadow bg-body" href="javascript:void(0)">
+                                            <div class="block-content text-center">
+                                                <i class="si si-rocket fa-2x text-primary"></i>
+                                                <p class="font-w600 font-size-sm mt-2 mb-3">
+                                                    Products
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <!-- END Products -->
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Sales -->
+                                        <a class="block block-rounded block-link-shadow bg-body mb-0"
+                                            href="javascript:void(0)">
+                                            <div class="block-content text-center">
+                                                <i class="si si-plane fa-2x text-primary"></i>
+                                                <p class="font-w600 font-size-sm mt-2 mb-3">
+                                                    Sales
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <!-- END Sales -->
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- Payments -->
+                                        <a class="block block-rounded block-link-shadow bg-body mb-0"
+                                            href="javascript:void(0)">
+                                            <div class="block-content text-center">
+                                                <i class="si si-wallet fa-2x text-primary"></i>
+                                                <p class="font-w600 font-size-sm mt-2 mb-3">
+                                                    Payments
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <!-- END Payments -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Apps Modal -->
+        </div>
+    </form>
+
+{% endblock %}

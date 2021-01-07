@@ -1,0 +1,133 @@
+{% extends 'AdminPanel_Template/AdminPanel.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block contens %}
+    <!-- Latest Orders -->
+    <div class="block block-rounded" xmlns="http://www.w3.org/1999/html">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Articles</h3>
+                        <div class="block-options">
+                            <button type="button" class="btn btn-sm btn-alt-primary" data-toggle="class-toggle" data-target="#one-dashboard-search-orders" data-class="d-none">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="dropdown d-inline-block">
+                                <button type="button" class="btn btn-sm btn-alt-primary" id="dropdown-recent-orders-filters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-fw fa-flask"></i>
+                                    Filters
+                                    <i class="fa fa-angle-down ml-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-md dropdown-menu-right font-size-sm" aria-labelledby="dropdown-recent-orders-filters">
+                                    <a class="dropdown-item font-w500 d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                        Confirmed
+                                        <span class="badge badge-primary badge-pill">{{ Approved_articles }}</span>
+                                    </a>
+                                    <a class="dropdown-item font-w500 d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                        Waiting for confirmation
+                                        <span class="badge badge-primary badge-pill">{{ Articles_awaiting_approval }}</span>
+                                    </a>
+                                    <a class="dropdown-item font-w500 d-flex align-items-center justify-content-between" href="javascript:void(0)">
+                                        All
+                                        <span class="badge badge-primary badge-pill">{{ articles.count }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="one-dashboard-search-orders" class="block-content border-bottom d-none">
+                        <!-- Search Form -->
+                        <form  method="get" action="{% url 'AdminPanel:articles_search' %}" >
+                            <div class="form-group push">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="one-ecom-orders-search" name="search" placeholder="Find the article by searching">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END Search Form -->
+                    </div>
+                    <div class="block-content">
+                        <!-- Recent Orders Table -->
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-striped table-vcenter">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 50px;">Id</th>
+                                            <th class="d-none d-sm-table-cell" style="width: 140px;">date</th>
+                                            <th class="d-none d-xl-table-cell">Title</th>
+                                            <th style="width: 140px;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for articles_all in pg %}
+                                    <tr>
+                                        <td class="text-center font-size-sm">
+                                            <a class="font-w600" href="javascript:void(0)">
+                                                <strong>{{ articles_all.id }}</strong>
+                                            </a>
+                                        </td>
+                                        <td class="d-none d-sm-table-cell font-size-sm font-w600 text-muted">{{ articles_all.CreationDate | timesince }}</td>
+                                        <td class="d-none d-xl-table-cell font-size-sm">
+                                            <a class="font-w600" href="javascript:void(0)">{{ articles_all.title | truncatechars:100 }}</a>
+                                        </td>
+                                        {% if articles_all.ReleaseStatus %}
+                                            <td>
+                                                <span class="font-size-sm font-w600 px-2 py-1 rounded  bg-info-light text-info">Confirmed</span>
+                                            </td>
+                                         {% else %}
+                                            <td>
+                                                <span class="font-size-sm font-w600 px-2 py-1 rounded  bg-danger-light text-danger">Not approved</span>
+                                            </td>
+                                        {% endif %}
+                                        <td class="d-none d-xl-table-cell font-size-sm">
+                                            <a class="font-w600" href="javascript:void(0)"></a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="left" title="Edit Article">
+                                                <i class="fa fa-fw fa-pencil-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- END Recent Orders Table -->
+
+                        <!-- Pagination -->
+                        <nav aria-label="Photos Search Navigation">
+                            <ul class="pagination pagination-sm justify-content-end mt-2">
+                                {% if pg.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{% url 'AdminPanel:articles_search' %}?search={{ search }}&page={{ pg.previous_page_number }}" tabindex="-1" aria-label="Previous">
+                                            Prev
+                                        </a>
+                                    </li>
+                                {% endif %}
+
+                            {% for page in pr.page_range %}
+                                <li class="page-item {% if page == pg.number %}active{% endif %}">
+                                    <a class="page-link" href="?search={{ search }}&page={{ page }}">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+
+                            {% if pg.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'AdminPanel:articles_search' %}?search={{ search }}&page={{ pg.next_page_number }}" aria-label="Next">
+                                        Next
+                                    </a>
+                                </li>
+                            {% endif %}
+                            </ul>
+                        </nav>
+                        <!-- END Pagination -->
+                    </div>
+                </div>
+                <!-- END Latest Orders -->
+{% endblock %}
